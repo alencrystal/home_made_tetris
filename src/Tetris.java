@@ -18,10 +18,10 @@ public class Tetris extends JFrame implements KeyListener {
 
         grid = new char[HEIGHT][WIDTH];
         clearGrid();
-        placePiece();
+        placePiece('X');
 
         while (true) { 
-            Thread.sleep(1000);
+            Thread.sleep(250);
             moveDown();
             
         }
@@ -32,20 +32,31 @@ public class Tetris extends JFrame implements KeyListener {
     private void clearGrid() {
         for (int i = 0; i < HEIGHT; i++) {
             for (int j = 0; j < WIDTH; j++) {
-                grid[i][j] = ' ';
+                if(grid[i][j] != '#'){
+                    grid[i][j] = ' ';
+                }
             }
         }
     }
 
+
+    private void spawnPiece(){
+        pieceCol = 4;
+        pieceRow = 0;
+    }
+
+
+
     // Posiziona il pezzo nella griglia
-    private void placePiece() {
+    private void placePiece(char piece) {
         clearGrid();
-        grid[pieceRow][pieceCol] = 'X'; // Pezzo di Tetris
+        grid[pieceRow][pieceCol] = piece; // Pezzo di Tetris
     }
 
     // Stampa la griglia
     private void printGrid() {
-        System.out.println("+----------+");
+        System.out.println("\033\143");
+
         for (int i = 0; i < HEIGHT; i++) {
             System.out.print("|");
             for (int j = 0; j < WIDTH; j++) {
@@ -58,27 +69,35 @@ public class Tetris extends JFrame implements KeyListener {
 
     // Movimento a sinistra
     public void moveLeft() {
-        if (pieceCol > 0) {
+        if (pieceCol > 0 && grid[pieceRow][pieceCol - 1] != '#') {
             pieceCol--;
-            placePiece();
+            placePiece('X');
             printGrid();
         }
     }
 
     // Movimento a destra
     public void moveRight() {
-        if (pieceCol < WIDTH - 1) {
+        if (pieceCol < WIDTH - 1 && grid[pieceRow][pieceCol + 1] != '#') {
             pieceCol++;
-            placePiece();
+            placePiece('X');
             printGrid();
         }
     }
 
     public void moveDown(){
         if (pieceRow < HEIGHT - 1){
+
             pieceRow ++;
-            placePiece();
+
+            if (pieceRow == HEIGHT - 1 || grid[pieceRow + 1][pieceCol] == '#'){
+                placePiece('#');
+                spawnPiece();
+            }else{
+                placePiece('X');  
+            }
             printGrid();
+            
         }
 
     }
