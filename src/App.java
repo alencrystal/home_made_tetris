@@ -1,5 +1,6 @@
-
 import java.util.Scanner;
+
+
 
 
 public class App {
@@ -21,6 +22,8 @@ public class App {
             
             count_print_board++;
             System.out.println("\n"+ count_print_board);
+
+
             sc.nextLine();
             
         }
@@ -64,4 +67,6 @@ public class App {
     
 
     }
+
+
 }
