@@ -1,17 +1,15 @@
-package org.example;
-
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.*;
 
 public class Tetris extends JFrame implements KeyListener {
-    private static final int WIDTH = 5;
-    private static final int HEIGHT = 10;
+    private static final int WIDTH = 10;
+    private static final int HEIGHT = 20;
     private char[][] grid;
     private int pieceRow = 0;
     private int pieceCol = 4; // Posizione iniziale del pezzo
 
-    public Tetris() {
+    public Tetris() throws InterruptedException {
         setTitle("Tetris Console");
         setSize(300, 200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -21,6 +19,13 @@ public class Tetris extends JFrame implements KeyListener {
         grid = new char[HEIGHT][WIDTH];
         clearGrid();
         placePiece();
+
+        while (true) { 
+            Thread.sleep(1000);
+            moveDown();
+            
+        }
+        
     }
 
     // Pulisce la griglia
@@ -69,6 +74,15 @@ public class Tetris extends JFrame implements KeyListener {
         }
     }
 
+    public void moveDown(){
+        if (pieceRow < HEIGHT - 1){
+            pieceRow ++;
+            placePiece();
+            printGrid();
+        }
+
+    }
+
     @Override
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
@@ -87,7 +101,7 @@ public class Tetris extends JFrame implements KeyListener {
     @Override
     public void keyTyped(KeyEvent e) {}
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         new Tetris();
     }
 }
